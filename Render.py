@@ -3,10 +3,10 @@ from utilidades import * #Archivo de utilidades.
 class Render(object):
 
     #Estas variables son globales y tienen valores por defecto y arbitrarios.
-    WHITE = color(1, 1, 1) #Color blanco hecho con las utilidades.
+    GRAY = color(0.501, 0.501, 0.501) #Color blanco hecho con las utilidades.
     colorFondo = 0 #Asignando el color blanco al framebuffer.
     #print("Color del fondo: ", colorFondo)
-    colorViewPort = WHITE #Asignando el color blanco al viewport. Esto es temporal-
+    colorViewPort = GRAY #Asignando el color blanco al viewport. Esto es temporal-
     width = 0 #Ancho de la pantalla. Esto es temporal.
     height = 0 #Alto de la pantalla. Esto es temporal.
     
@@ -15,6 +15,9 @@ class Render(object):
 
     xV = 0 #Posición en x del viewport.
     yV = 0 #Posición en y del viewport.
+
+    lista = [] #Lista para generar el viewport.
+
     colorP = 0 #Asignando el color blanco al punto. Esto es temporal.
 
     framebuffer = [] #Framebuffer.
@@ -25,33 +28,8 @@ class Render(object):
 
     colorZ = 0 #Color del zbuffer.
 
-    tpath = None  #Path de las texturas.
+    tpath = None  #Path de las texturas. Aquí se inicializa en none porque aún no se sabe si hay texturas del personaje.
 
-
-    #Método que hace el viewport del archivo.
-    def View(self, posX, posY, ancho, alto):
-        #En este método se hace el viewport del archivo.
-
-        #print(Posx, Posy)
-        self.xV = posX
-        self.yV = posY
-        self.widthV = ancho
-        self.heightV = alto
-
-        #Probando la lista.
-        lista = [
-                [self.colorViewPort for x in range(ancho)]
-                for y in range(alto)
-            ]
-
-        #print("Lista del viewport", lista)
-
-        #Hacer una copia del viewport en el framebuffer con los índices iguales.
-        for i in range(ancho):
-            for j in range(alto):
-                self.framebuffer[posY + j][posX + i] = lista[j][i]
-        
-        #print(framebuffer)
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.

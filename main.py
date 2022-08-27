@@ -16,6 +16,7 @@ def main():
     glClearColor(1, 1, 1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
+    #glViewPort(0, 0, 501, 501) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
@@ -39,7 +40,6 @@ def main():
     
     modelo("./droids.obj", "./material2.bmp", scale, translate, col1)
 
-    #glViewPort(0, 0, 501, 501) #Asignando el viewport.
 
     #texturas("./model.obj", "./model.bmp", col1)
 

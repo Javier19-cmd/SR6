@@ -70,7 +70,24 @@ def glViewPort(x, y, width, height): #Se usará para definir el área de la imag
         
         c1.colorViewPort = colorV #Se manda a hacer el color del viewport.
 
-        c1.View(x, y, width, height) #Se manda a hacer el viewport.
+        #Seteando las propiedades del viewport.
+        c1.xV = x 
+        c1.yV = y
+        c1.widthV = width
+        c1.heightV = height
+
+        #Se crea el viewport.
+        c1.lista = [
+            [c1.colorViewPort for x in range(c1.widthV)] 
+            for y in range(c1.heightV)
+        ]
+
+        #Copiando el viewport en el framebuffer.
+        for i in range(c1.widthV):
+            for j in range(c1.heightV):
+                c1.framebuffer[c1.yV + j][c1.xV + i] = c1.lista[j][i]
+
+        #c1.View(x, y, width, height) #Se manda a hacer el viewport.
     else: 
         print("Error")
 
