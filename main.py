@@ -39,6 +39,8 @@ def main():
     
     modelo("./droids.obj", "./material2.bmp", scale, translate, col1)
 
+    #glViewPort(0, 0, 501, 501) #Asignando el viewport.
+
     #texturas("./model.obj", "./model.bmp", col1)
 
     #texturas("./Pallet.obj", "./Pallet.bmp", col1) #Llamando al método texturas.

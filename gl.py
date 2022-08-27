@@ -135,7 +135,9 @@ def glVertex(x, y): #Función que pueda cambiar el color de un punto de la panta
     #print("Alto: ", c1.height) #Alto de la pantalla
 
     if 0 < x < c1.width and 0 < y < c1.height: #Verificando que las coordenadas estén dentro del viewport.
-        c1.Vertex(x, y) #Se manda a hacer el punto.
+        #Escribiendo el punto directamente en el framebuffer.
+        c1.framebuffer[y][x] = c1.colorP #Escribiendo el color el punto en el framebuffer.
+        #c1.Vertex(x, y) #Se manda a hacer el punto.
 
 #Función que crea una línea entre dos puntos. Esta tiene que estar en el rango de 0 a 1.
 def glLine(v1, v2):

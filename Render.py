@@ -53,14 +53,6 @@ class Render(object):
         
         #print(framebuffer)
 
-
-    def Vertex(self,x, y):
-        #En este método se dibuja un punto en el viewport.
-
-        #Colocar el punto en el viewport.
-        self.framebuffer[y][x] = self.colorP #El color del punto es el color actual.
-
-
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.
             
