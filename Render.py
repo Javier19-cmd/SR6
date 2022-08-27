@@ -65,7 +65,7 @@ class Render(object):
     def write(self): #Escribir un archivo, pero con el zbuffer.
             
             #Se abre el archivo con la forma de bw.
-            f = open("SR5.bmp", "bw")
+            f = open("SR6.bmp", "bw")
 
             #Se escribe el encabezado del archivo.
 
