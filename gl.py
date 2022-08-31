@@ -359,7 +359,8 @@ def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo
                 triangle(
                     col1, #Llamando al método triangle para dibujar un triángulo.
                     (v1, v2, v3)
-                    ,(vt1, vt2, vt3)) 
+                    ,(vt1, vt2, vt3)
+                ) 
             else: #Si el path2 está vacío, entonces se dibuja el triángulo.
                 
                 #El array de caras es bidimensional en este código.
