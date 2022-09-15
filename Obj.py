@@ -69,37 +69,4 @@ class Object(object):
                     )
                 )
 
-#Función que transforma los vértices de la estructura de la imagen.
-    def transform_vertex(self, vertex, model_matrix):
-
-        c5 = Matriz() #Instanciando la clase Matriz.
-        
-        #print(vertex)
-        #print(scale)
-
-        aumented_vertex = [
-            [vertex[0]], 
-            [vertex[1]], 
-            [vertex[2]], 
-                    [1]
-            ] #Se aumenta el vértice a 4 dimensiones.
-
-
-        #Debuggeo.
-        #print("Model matrix: ", model_matrix)
-        #print("Aumented vertex: ", aumented_vertex)
-
-        transformed_vertex = c5.multiplicar(model_matrix, aumented_vertex) #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
-        
-        # print("Tansformed vertex: ", transformed_vertex) #Debuggeo.
-
-        # print("Componentes del vertex: ", transformed_vertex[0][0], transformed_vertex[1][0], transformed_vertex[2][0]) #Debuggeo.
-
-        #print("Tansformed vertex en vector 3D: ", V3(transformed_vertex[0][0]/transformed_vertex[2][0], transformed_vertex[1][0]/transformed_vertex[2][0], transformed_vertex[2][0]/transformed_vertex[2][0])) #Debuggeo.
-
-        #Recibir la matriz del vector.
-        return V3(
-            transformed_vertex[0][0]/transformed_vertex[3][0], 
-            transformed_vertex[1][0]/transformed_vertex[3][0], 
-            transformed_vertex[2][0]/transformed_vertex[3][0]
-            ) #Se regresa el vértice transformado en términos de vector 3D.
+ 

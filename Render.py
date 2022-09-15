@@ -36,9 +36,9 @@ class Render(object):
     model_s = None
 
     #Declarando una matriz de vista.
-    view = None
-    
     view_np = None #Quitar después.
+
+    view = None
 
 
     #Método que escribe el archivo bmp.

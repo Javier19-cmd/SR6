@@ -410,14 +410,14 @@ def loadViewMatrix(x, y, z, center):
         [0,     0,   0, 1]
     ] #Matriz inversa.
 
-    Op = [
+    Op2 = [
         [1, 0, 0, -center.x],
         [0, 1, 0, -center.y],
         [0, 0, 1, -center.z],
         [0, 0, 0,         1]
     ] # Matriz de traslación.
 
-    c1.view = c3.multiplicar(Mi, Op) #Multiplicando las matrices.
+    c1.view = c3.multiplicar(Mi, Op2) #Multiplicando las matrices.
 
     print("Matriz de vista sin numpy: ", c1.view)
 
@@ -428,7 +428,7 @@ def lookAt(eye, center, up): #Recibe donde está la cámara, el centro y que es 
     x = cross(up, z).normalice() # Equis de la cámara.
     y = cross(z, x).normalice()  # Y de la cámara.
 
-    loadViewMatrix(x, y, z, center)
+    loadViewMatrix(x, y, z, center) #Cargando la matriz de vista.
     
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
@@ -462,10 +462,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
-                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
-                v4 = r.transform_vertex(r.vertices[f4], c1.model_s)
+                v1 = transform_vertex(r.vertices[f1]) 
+                v2 = transform_vertex(r.vertices[f2])
+                v3 = transform_vertex(r.vertices[f3])
+                v4 = transform_vertex(r.vertices[f4])
 
                 ft1 = face[0][1] - 1 #Se le resta 1 porque el array de vértices empieza en 0.
                 ft2 = face[1][1] - 1 #Agarrando el índice 0.
@@ -496,10 +496,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
-                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
-                v4 = r.transform_vertex(r.vertices[f4], c1.model_s)
+                v1 = transform_vertex(r.vertices[f1]) 
+                v2 = transform_vertex(r.vertices[f2])
+                v3 = transform_vertex(r.vertices[f3])
+                v4 = transform_vertex(r.vertices[f4])
 
                 #print("Cara: ", f1, f2, f3, f4)
 
@@ -520,10 +520,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 #f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
-                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
-                #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
+                v1 = transform_vertex(r.vertices[f1]) 
+                v2 = transform_vertex(r.vertices[f2])
+                v3 = transform_vertex(r.vertices[f3])
+                #v4 = transform_vertex(r.vertices[f4], c1.loadModelMatrix)
                 
                 #Jalando las caras de las texturas.
 
@@ -562,12 +562,45 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
 
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
-                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
-                #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
+                v1 = transform_vertex(r.vertices[f1]) 
+                v2 = transform_vertex(r.vertices[f2])
+                v3 = transform_vertex(r.vertices[f3])
+                #v4 = transform_vertex(r.vertices[f4], c1.loadModelMatrix)
 
                 triangle(col1, (v1, v2, v3)) #Llamando al método triangle para dibujar un triángulo.
+
+#Función que transforma los vértices de la estructura de la imagen.
+def transform_vertex(vertex):
+    
+    #print(vertex)
+    #print(scale)
+
+    aumented_vertex = [
+        [vertex[0]], 
+        [vertex[1]], 
+        [vertex[2]], 
+                [1]
+        ] #Se aumenta el vértice a 4 dimensiones.
+
+
+    #Debuggeo.
+    #print("Model matrix: ", model_matrix)
+    #print("Aumented vertex: ", aumented_vertex)
+
+    transformed_vertex = c3.multiplicar(c3.multiplicar(c1.view, c1.model_s), aumented_vertex) #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
+    
+    # print("Tansformed vertex: ", transformed_vertex) #Debuggeo.
+
+    # print("Componentes del vertex: ", transformed_vertex[0][0], transformed_vertex[1][0], transformed_vertex[2][0]) #Debuggeo.
+
+    #print("Tansformed vertex en vector 3D: ", V3(transformed_vertex[0][0]/transformed_vertex[2][0], transformed_vertex[1][0]/transformed_vertex[2][0], transformed_vertex[2][0]/transformed_vertex[2][0])) #Debuggeo.
+
+    #Recibir la matriz del vector.
+    return V3(
+        transformed_vertex[0][0]/transformed_vertex[3][0], 
+        transformed_vertex[1][0]/transformed_vertex[3][0], 
+        transformed_vertex[2][0]/transformed_vertex[3][0]
+        ) #Se regresa el vértice transformado en términos de vector 3D.
 
 
 
