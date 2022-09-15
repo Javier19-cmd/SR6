@@ -13,7 +13,7 @@ from textures import * #Importando los métodos del archivo textures.py.
 def main():
     glCreateWindow(1024, 1024) #Creando la ventana.
     #glCreateWindow(5000, 5000) #Creando la ventana.
-    glClearColor(1, 1, 1) #Color del fondo.
+    glClearColor(0.3, 0.4, 0.1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
     #glViewPort(0, 0, 501, 501) #Asignando el viewport.
@@ -30,15 +30,21 @@ def main():
     #triangle(V3(180, 50), V3(150, 1), V3(70, 180), col2) #Llamando al método triangle para dibujar un triángulo.
     #triangle(V3(180, 150), V3(120, 160), V3(130, 180), col3) #Llamando al método triangle para dibujar un triángulo.
 
-    scale = (900, 900, 950) #Escala para los bb8's.
+    scale = (200, 200, 225) #Escala para los bb8's.
     translate = (512, 300, 0) #Traslación para los bb8's.
     
 
     #modelo("./Pallet.obj", scale, translate, col1)
 
     # zBuffer() #Haciendo la copia del z-buffer.
+
+    rotacion = (0, 0, 0) #Rotación para los bb8's.
+
+    print("Rotación: ", rotacion)
     
-    modelo("./pumpkin.obj", "./pumpkin.bmp", scale, translate, col1) #Esta función ahora recibe primero el path del obj, luego el path del bmp, luego la escala, la traslación, el color y la rotación.
+
+    #Esta función ahora recibe primero el path del obj, luego el path del bmp, luego la escala, la traslación, el color y la rotación.
+    modelo("./droids.obj", "./material2.bmp", scale, translate, col1, rotacion) 
 
 
     #texturas("./model.obj", "./model.bmp", col1)

@@ -354,12 +354,12 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
 
     c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np #Esto es con numpy.
 
-    print("Matriz de rotación: ", rotation_matrix_np) #Debuggeo.
+    #print("Matriz de rotación: ", rotation_matrix_np) #Debuggeo.
     #print("Matriz de transformación: ", c1.model_s) #Debuggeo.
 
 
 
-    print("Matriz del modelo: ", c1.matrix_np)
+    #print("Matriz del modelo: ", c1.matrix_np)
     
     #Multiplicación de las matrices. Esto es sin numpy.
     rotation_matrix = c3.multiplicar(c3.multiplicar(rotation_matrix_x, rotation_matrix_y), rotation_matrix_z) #Esto es sin numpy.
@@ -367,19 +367,19 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     #c1.matrix = traslation_matrix @ scale_matrix @ rotation_matrix #Esto es sin numpy.
     c1.matrix = c3.multiplicar(c3.multiplicar(traslation_matrix, scale_matrix), rotation_matrix) #Esto es sin numpy.
 
-    print("---------------------------------------------------")
-    print("Matriz de rotación: ")
-    #Imprimiendo fila por fila el cada matriz.
-    for i in range(len(rotation_matrix)):
-        print(rotation_matrix[i])
+    # print("---------------------------------------------------")
+    # print("Matriz de rotación: ")
+    # #Imprimiendo fila por fila el cada matriz.
+    # for i in range(len(rotation_matrix)):
+    #     print(rotation_matrix[i])
     
-    print("Matriz del modelo:")
-    print("---------------------------------------------------")
-    for i in range(len(c1.matrix)):
-        print(c1.matrix[i])
+    # print("Matriz del modelo:")
+    # print("---------------------------------------------------")
+    # for i in range(len(c1.matrix)):
+    #     print(c1.matrix[i])
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
-def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método para cargar un modelo 3D.
+def modelo(path1, path2, scale, translate, col1, rotate=(0, 0, 0)): #Método para cargar un modelo 3D.
 
     #Esta llamada puede no estar acá.
     loadModelMatrix(translate, scale, rotate) #Se carga la matriz de transformación.
