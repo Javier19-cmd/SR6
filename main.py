@@ -38,13 +38,16 @@ def main():
 
     # zBuffer() #Haciendo la copia del z-buffer.
 
-    rotacion = (0, 0, 0) #Rotación para los bb8's.
+    rotacion = (0, pi/12, 0) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     
 
-    #Esta función ahora recibe primero el path del obj, luego el path del bmp, luego la escala, la traslación, el color y la rotación.
-    modelo("./droids.obj", "./material2.bmp", scale, translate, col1, rotacion) 
+    #Esta llamada puede no estar acá.
+    loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
+
+    #Esta función ahora recibe primero el path del obj, luego el path del bmp, el color.
+    modelo("./droids.obj", "./material2.bmp", col1) 
 
 
     #texturas("./model.obj", "./model.bmp", col1)

@@ -332,10 +332,10 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     #Rotación en y.
     b = rotate.y
     rotation_matrix_y = [
-        [cos(b), 0, sin(b),  0],
-        [0,      1,      0,  0],
-        [-sin(b), 0, cos(b), 0],
-        [      0, 0,      0, 1]
+        [cos(b),  0, sin(b),  0],
+        [0,       1,      0,  0],
+        [-sin(b), 0, cos(b),  0],
+        [      0, 0,      0,  1]
     ]
 
     #Rotación en z.
@@ -379,10 +379,8 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     #     print(c1.matrix[i])
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
-def modelo(path1, path2, scale, translate, col1, rotate=(0, 0, 0)): #Método para cargar un modelo 3D.
+def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
 
-    #Esta llamada puede no estar acá.
-    loadModelMatrix(translate, scale, rotate) #Se carga la matriz de transformación.
     
     r = Object(path1) #Llamando al método Object del archivo Obj.py.
 

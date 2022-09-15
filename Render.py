@@ -35,6 +35,9 @@ class Render(object):
 
     model_s = None
 
+    #Declarando una matriz de vista.
+    view = None
+
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.
