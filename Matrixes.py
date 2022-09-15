@@ -7,10 +7,7 @@ Referencia:
 """
 
 class Matriz(object): #Clase para las matrices.
-    m1 = None;
-    m2 = None;
 
-    
     #Método para multiplicar dos matrices iguales.
     def multiplicar(self, m1, m2): 
 
@@ -26,7 +23,8 @@ class Matriz(object): #Clase para las matrices.
                     for k in range(len(m2)): #Recorremos la matriz m2.
                         m3[i][j] += m1[i][k] * m2[k][j] #Multiplicamos las matrices.
                 
-            return m3 #Devolvemos el resultado.
+            #Retornando el resultado como matriz.
+            return m3
         else: #Si las matrices no se pueden multiplicar, etnonces devolvemos un mensaje de error.
             return "Las matrices no se pueden multiplicar"
     

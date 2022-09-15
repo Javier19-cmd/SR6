@@ -300,65 +300,59 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
         [0,            0, 0,  1]
     ])
 
+    ######################################################################################################################################################################
+
     #Definiendo la matriz de transformación esto es sin numpy.
-    # traslation_matrix = c3.m1([
-    #     [1, 0, 0, translate.x],
-    #     [0, 1, 0, translate.y],
-    #     [0, 0, 1, translate.z],
-    #     [0, 0, 0,           1]
-    # ])
+    traslation_matrix = ([
+        [1, 0, 0, translate.x],
+        [0, 1, 0, translate.y],
+        [0, 0, 1, translate.z],
+        [0, 0, 0,           1]
+    ])
 
-    # #Definiendo la matriz de escala.
-    # scale_matrix = c3.m2([
-    #     [scale.x, 0, 0, 0],
-    #     [0, scale.y, 0, 0],
-    #     [0, 0, 1, scale.z],
-    #     [0, 0, 0,       1]
-    # ])
+    #Definiendo la matriz de escala.
+    scale_matrix = ([
+        [scale.x, 0, 0, 0],
+        [0, scale.y, 0, 0],
+        [0, 0, 1, scale.z],
+        [0, 0, 0,       1]
+    ])
 
-    # #Definiendo la matriz de rotación.
+    #Definiendo la matriz de rotación.
 
-    # #Rotación en x.
-    # a = rotate.x
-    # rotation_matrix_x = Matriz([
-    #     [1,    0,        0,  0],
-    #     [0, cos(a), -sin(a), 0],
-    #     [0, sin(a),  cos(a), 0],
-    #     [0,      0,       0, 1]
-    # ])
+    #Rotación en x.
+    a = rotate.x
+    rotation_matrix_x = [
+        [1,    0,        0,  0],
+        [0, cos(a), -sin(a), 0],
+        [0, sin(a),  cos(a), 0],
+        [0,      0,       0, 1]
+    ]
 
-    # #Rotación en y.
-    # b = rotate.y
-    # rotation_matrix_y = Matriz([
-    #     [cos(b), 0, sin(b),  0],
-    #     [0,      1,      0,  0],
-    #     [-sin(b), 0, cos(b), 0],
-    #     [0, 0, 0, 1]
-    # ])
+    #Rotación en y.
+    b = rotate.y
+    rotation_matrix_y = [
+        [cos(b), 0, sin(b),  0],
+        [0,      1,      0,  0],
+        [-sin(b), 0, cos(b), 0],
+        [      0, 0,      0, 1]
+    ]
 
-    # #Rotación en z.
-    # c = rotate.z
-    # rotation_matrix_z = Matriz([
-    #     [cos(c), -sin(c), 0,  0],
-    #     [sin(c),  cos(c), 0,  0],
-    #     [0,            0, 1,  0],
-    #     [0,            0, 0,  1]
-    # ])
+    #Rotación en z.
+    c = rotate.z
+    rotation_matrix_z = [
+        [cos(c), -sin(c), 0,  0],
+        [sin(c),  cos(c), 0,  0],
+        [0,            0, 1,  0],
+        [0,            0, 0,  1]
+    ]
 
-    # #Multiplicando las matrices.
-    # rotation_matrix_np = rotation_matrix_x_np * rotation_matrix_y_np * rotation_matrix_z_np
+    # #Multiplicando las matrices. Estos resultados se deben a numpy.
 
-    # #Multiplicando las matrices.
-    # c1.matrix_np = traslation_matrix_np * scale_matrix_np * rotation_matrix_np #Esto se hace con * por numpy.
-
-    # #Multiplicando las matrices sin numpy.
-    # rotation_matrix1 = c3.multiplicar(rotation_matrix_x, rotation_matrix_y) 
-    # rotation_matrix = c3.multiplicar(rotation_matrix1, rotation_matrix_z)
-
-    rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np
+    rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np #Esto es con numpy.
 
 
-    c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np
+    c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np #Esto es con numpy.
 
     print("Matriz de rotación: ", rotation_matrix_np) #Debuggeo.
     #print("Matriz de transformación: ", c1.model_s) #Debuggeo.
@@ -366,9 +360,23 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
 
 
     print("Matriz del modelo: ", c1.matrix_np)
-    #print("Matriz del modelo con multiplicaciones de @: ", )
+    
+    #Multiplicación de las matrices. Esto es sin numpy.
+    rotation_matrix = c3.multiplicar(c3.multiplicar(rotation_matrix_x, rotation_matrix_y), rotation_matrix_z) #Esto es sin numpy.
 
-    #c1.loadModelMatrix = traslation_matrix @ rotation_matrix @ scale_matrix #Se carga la matriz de transformación.
+    #c1.matrix = traslation_matrix @ scale_matrix @ rotation_matrix #Esto es sin numpy.
+    c1.matrix = c3.multiplicar(c3.multiplicar(traslation_matrix, scale_matrix), rotation_matrix) #Esto es sin numpy.
+
+    print("---------------------------------------------------")
+    print("Matriz de rotación: ")
+    #Imprimiendo fila por fila el cada matriz.
+    for i in range(len(rotation_matrix)):
+        print(rotation_matrix[i])
+    
+    print("Matriz del modelo:")
+    print("---------------------------------------------------")
+    for i in range(len(c1.matrix)):
+        print(c1.matrix[i])
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
 def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método para cargar un modelo 3D.
@@ -403,10 +411,10 @@ def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método par
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
-                v4 = r.transform_vertex(r.vertices[f4], c1.matrix_np)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
+                v4 = r.transform_vertex(r.vertices[f4], c1.matrix)
 
                 ft1 = face[0][1] - 1 #Se le resta 1 porque el array de vértices empieza en 0.
                 ft2 = face[1][1] - 1 #Agarrando el índice 0.
@@ -437,10 +445,10 @@ def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método par
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
-                v4 = r.transform_vertex(r.vertices[f4], c1.matrix_np)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
+                v4 = r.transform_vertex(r.vertices[f4], c1.matrix)
 
                 #print("Cara: ", f1, f2, f3, f4)
 
@@ -461,9 +469,9 @@ def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método par
                 #f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
                 #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
                 
                 #Jalando las caras de las texturas.
@@ -503,9 +511,9 @@ def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método par
 
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
                 #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
 
                 triangle(col1, (v1, v2, v3)) #Llamando al método triangle para dibujar un triángulo.

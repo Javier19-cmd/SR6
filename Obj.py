@@ -6,6 +6,7 @@ Referencias:
     https://bobbyhadz.com/blog/python-valueerror-invalid-literal-for-int-with-base-10
 """
 from vector import *
+from Matrixes import * #Importando la clase que se encarga de multiplicar matrices.
 
 class Object(object):
     
@@ -69,19 +70,26 @@ class Object(object):
                 )
 
 #Función que transforma los vértices de la estructura de la imagen.
-    def transform_vertex(self, vertex, model_matrix): 
+    def transform_vertex(self, vertex, model_matrix):
+
+        c1 = Matriz() #Instanciando la clase Matriz.
         
         #print(vertex)
         #print(scale)
 
         aumented_vertex = [
-            vertex[0], 
-            vertex[1], 
-            vertex[2], 
-                    1
+            [vertex[0]], 
+            [vertex[1]], 
+            [vertex[2]], 
+                  [1.0]
             ] #Se aumenta el vértice a 4 dimensiones.
 
-        transformed_vertex = model_matrix * aumented_vertex #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
+
+        #Debuggeo.
+        print("Model matrix: ", model_matrix)
+        print("Aumented vertex: ", aumented_vertex)
+
+        transformed_vertex = c1.multiplicar(model_matrix, aumented_vertex) #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
         
         print("Tansformed vertex: ", transformed_vertex) #Debuggeo.
 
