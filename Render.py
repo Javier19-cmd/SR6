@@ -30,6 +30,11 @@ class Render(object):
 
     tpath = None  #Path de las texturas. Aquí se inicializa en none porque aún no se sabe si hay texturas del personaje.
 
+    #Declarando una matriz para el modelo.
+    model_np = None
+
+    model_s = None
+
 
     #Método que escribe el archivo bmp.
     def write(self): #Escribir un archivo, pero con el zbuffer.

@@ -30,7 +30,7 @@ def main():
     #triangle(V3(180, 50), V3(150, 1), V3(70, 180), col2) #Llamando al método triangle para dibujar un triángulo.
     #triangle(V3(180, 150), V3(120, 160), V3(130, 180), col3) #Llamando al método triangle para dibujar un triángulo.
 
-    scale = (200, 200, 250) #Escala para los bb8's.
+    scale = (900, 900, 950) #Escala para los bb8's.
     translate = (512, 300, 0) #Traslación para los bb8's.
     
 
@@ -38,7 +38,7 @@ def main():
 
     # zBuffer() #Haciendo la copia del z-buffer.
     
-    modelo("./droids.obj", "./material2.bmp", scale, translate, col1)
+    modelo("./pumpkin.obj", "./pumpkin.bmp", scale, translate, col1) #Esta función ahora recibe primero el path del obj, luego el path del bmp, luego la escala, la traslación, el color y la rotación.
 
 
     #texturas("./model.obj", "./model.bmp", col1)

@@ -25,14 +25,22 @@ SR4:
     https://www.yawintutor.com/zerodivisionerror-division-by-zero/
 """
 
+from pyexpat import model
 from Render import * #Importando la clase Render.
 from utilidades import *
 from vector import *
 from Obj import *
 from textures import *
+from math import *
+#Importando la clase de matriz.
+from Matrixes import *
+
+#Importando numpy de manera temoral.
+from numpy import *
 
 c1 = Render() #Inicializando la clase Render.
 c2 = Texture() #Inicializando las texturas.
+c3 = Matriz() #Inicializando la clase de matrices.
 
 #Pregunar si está bien implementada esta función.
 def glInit(): #Se usará para poder inicializar cualquier objeto interno que requiera el software de render.
@@ -240,8 +248,133 @@ def glColor(r, g, b): #Función con la que se pueda cambiar el color con el que 
         #print("Color en gl: ", Color)
         c1.colorP = Color #Se setea el color del punto.
 
+def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función para cargar la matriz de transformación.
+
+    #Convirtiendo los parámetros a V3 por el momento.
+    translate = V3(translate[0], translate[1], translate[2])
+    scale = V3(scale[0], scale[1], scale[2])
+    rotate = V3(rotate[0], rotate[1], rotate[2])
+
+    #Definiendo la matriz de transformación esto es con numpy.
+    traslation_matrix_np = matrix([
+        [1, 0, 0, translate.x],
+        [0, 1, 0, translate.y],
+        [0, 0, 1, translate.z],
+        [0, 0, 0,           1]
+    ])
+
+    #Definiendo la matriz de escala.
+    scale_matrix_np = matrix([
+        [scale.x, 0, 0, 0],
+        [0, scale.y, 0, 0],
+        [0, 0, 1, scale.z],
+        [0, 0, 0,       1]
+    ])
+
+    #Definiendo la matriz de rotación.
+
+    #Rotación en x.
+    a = rotate.x
+    rotation_matrix_x_np = matrix([
+        [1,    0,        0,  0],
+        [0, cos(a), -sin(a), 0],
+        [0, sin(a),  cos(a), 0],
+        [0,      0,       0, 1]
+    ])
+
+    #Rotación en y.
+    b = rotate.y
+    rotation_matrix_y_np = matrix([
+        [cos(b), 0, sin(b),  0],
+        [0,      1,      0,  0],
+        [-sin(b), 0, cos(b), 0],
+        [0, 0, 0, 1]
+    ])
+
+    #Rotación en z.
+    c = rotate.z
+    rotation_matrix_z_np = matrix([
+        [cos(c), -sin(c), 0,  0],
+        [sin(c),  cos(c), 0,  0],
+        [0,            0, 1,  0],
+        [0,            0, 0,  1]
+    ])
+
+    #Definiendo la matriz de transformación esto es sin numpy.
+    # traslation_matrix = c3.m1([
+    #     [1, 0, 0, translate.x],
+    #     [0, 1, 0, translate.y],
+    #     [0, 0, 1, translate.z],
+    #     [0, 0, 0,           1]
+    # ])
+
+    # #Definiendo la matriz de escala.
+    # scale_matrix = c3.m2([
+    #     [scale.x, 0, 0, 0],
+    #     [0, scale.y, 0, 0],
+    #     [0, 0, 1, scale.z],
+    #     [0, 0, 0,       1]
+    # ])
+
+    # #Definiendo la matriz de rotación.
+
+    # #Rotación en x.
+    # a = rotate.x
+    # rotation_matrix_x = Matriz([
+    #     [1,    0,        0,  0],
+    #     [0, cos(a), -sin(a), 0],
+    #     [0, sin(a),  cos(a), 0],
+    #     [0,      0,       0, 1]
+    # ])
+
+    # #Rotación en y.
+    # b = rotate.y
+    # rotation_matrix_y = Matriz([
+    #     [cos(b), 0, sin(b),  0],
+    #     [0,      1,      0,  0],
+    #     [-sin(b), 0, cos(b), 0],
+    #     [0, 0, 0, 1]
+    # ])
+
+    # #Rotación en z.
+    # c = rotate.z
+    # rotation_matrix_z = Matriz([
+    #     [cos(c), -sin(c), 0,  0],
+    #     [sin(c),  cos(c), 0,  0],
+    #     [0,            0, 1,  0],
+    #     [0,            0, 0,  1]
+    # ])
+
+    # #Multiplicando las matrices.
+    # rotation_matrix_np = rotation_matrix_x_np * rotation_matrix_y_np * rotation_matrix_z_np
+
+    # #Multiplicando las matrices.
+    # c1.matrix_np = traslation_matrix_np * scale_matrix_np * rotation_matrix_np #Esto se hace con * por numpy.
+
+    # #Multiplicando las matrices sin numpy.
+    # rotation_matrix1 = c3.multiplicar(rotation_matrix_x, rotation_matrix_y) 
+    # rotation_matrix = c3.multiplicar(rotation_matrix1, rotation_matrix_z)
+
+    rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np
+
+
+    c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np
+
+    print("Matriz de rotación: ", rotation_matrix_np) #Debuggeo.
+    #print("Matriz de transformación: ", c1.model_s) #Debuggeo.
+
+
+
+    print("Matriz del modelo: ", c1.matrix_np)
+    #print("Matriz del modelo con multiplicaciones de @: ", )
+
+    #c1.loadModelMatrix = traslation_matrix @ rotation_matrix @ scale_matrix #Se carga la matriz de transformación.
+
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
-def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo 3D.
+def modelo(path1, path2, scale, translate, col1, rotate=(1, 1, 1)): #Método para cargar un modelo 3D.
+
+    #Esta llamada puede no estar acá.
+    loadModelMatrix(translate, scale, rotate) #Se carga la matriz de transformación.
     
     r = Object(path1) #Llamando al método Object del archivo Obj.py.
 
@@ -270,10 +403,10 @@ def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], scale, translate)
-                v2 = r.transform_vertex(r.vertices[f2], scale, translate)
-                v3 = r.transform_vertex(r.vertices[f3], scale, translate)
-                v4 = r.transform_vertex(r.vertices[f4], scale, translate)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                v4 = r.transform_vertex(r.vertices[f4], c1.matrix_np)
 
                 ft1 = face[0][1] - 1 #Se le resta 1 porque el array de vértices empieza en 0.
                 ft2 = face[1][1] - 1 #Agarrando el índice 0.
@@ -304,10 +437,10 @@ def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], scale, translate)
-                v2 = r.transform_vertex(r.vertices[f2], scale, translate)
-                v3 = r.transform_vertex(r.vertices[f3], scale, translate)
-                v4 = r.transform_vertex(r.vertices[f4], scale, translate)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                v4 = r.transform_vertex(r.vertices[f4], c1.matrix_np)
 
                 #print("Cara: ", f1, f2, f3, f4)
 
@@ -328,10 +461,10 @@ def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo
                 #f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], scale, translate)
-                v2 = r.transform_vertex(r.vertices[f2], scale, translate)
-                v3 = r.transform_vertex(r.vertices[f3], scale, translate)
-                #v4 = r.transform_vertex(r.vertices[f4], scale, translate)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
                 
                 #Jalando las caras de las texturas.
 
@@ -370,9 +503,10 @@ def modelo(path1, path2, scale, translate, col1): #Método para cargar un modelo
 
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], scale, translate)
-                v2 = r.transform_vertex(r.vertices[f2], scale, translate)
-                v3 = r.transform_vertex(r.vertices[f3], scale, translate)
+                v1 = r.transform_vertex(r.vertices[f1], c1.matrix_np) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.matrix_np)
+                v3 = r.transform_vertex(r.vertices[f3], c1.matrix_np)
+                #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
 
                 triangle(col1, (v1, v2, v3)) #Llamando al método triangle para dibujar un triángulo.
 
