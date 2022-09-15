@@ -352,7 +352,7 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np #Esto es con numpy.
 
 
-    c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np #Esto es con numpy.
+    #c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np #Esto es con numpy.
 
     #print("Matriz de rotación: ", rotation_matrix_np) #Debuggeo.
     #print("Matriz de transformación: ", c1.model_s) #Debuggeo.
@@ -365,7 +365,8 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     rotation_matrix = c3.multiplicar(c3.multiplicar(rotation_matrix_x, rotation_matrix_y), rotation_matrix_z) #Esto es sin numpy.
 
     #c1.matrix = traslation_matrix @ scale_matrix @ rotation_matrix #Esto es sin numpy.
-    c1.matrix = c3.multiplicar(c3.multiplicar(traslation_matrix, scale_matrix), rotation_matrix) #Esto es sin numpy.
+    c1.model_s = c3.multiplicar(c3.multiplicar(traslation_matrix, rotation_matrix), scale_matrix) #Esto es sin numpy.
+
 
     # print("---------------------------------------------------")
     # print("Matriz de rotación: ")
@@ -377,6 +378,58 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     # print("---------------------------------------------------")
     # for i in range(len(c1.matrix)):
     #     print(c1.matrix[i])
+
+def loadViewMatrix(x, y, z, center):
+
+    #Definiendo la matriz de vista. (con numpy)
+    Minv = matrix([
+        
+        [x.x, x.y, x.z, 0],
+        [y.x, y.y, y.z, 0],
+        [z.x, z.y, z.z, 0],
+        [0,     0,   0, 1]
+        ])
+
+    Op = matrix([
+        [1, 0, 0, -center.x],
+        [0, 1, 0, -center.y],
+        [0, 0, 1, -center.z],
+        [0, 0, 0,          1]
+    ])
+
+    #c1.view = Minv @ Op #Multiplicando las matrices.
+    #print("Multiplicación con numpy: ", c1.view) #Debuggeo.
+        
+
+
+    #Definiendo la matriz de vista (sin numpy)
+    Mi = [
+        [x.x, x.y, x.z, 0],
+        [y.x, y.y, y.z, 0],
+        [z.x, z.y, z.z, 0],
+        [0,     0,   0, 1]
+    ] #Matriz inversa.
+
+    Op = [
+        [1, 0, 0, -center.x],
+        [0, 1, 0, -center.y],
+        [0, 0, 1, -center.z],
+        [0, 0, 0,         1]
+    ] # Matriz de traslación.
+
+    c1.view = c3.multiplicar(Mi, Op) #Multiplicando las matrices.
+
+    print("Matriz de vista sin numpy: ", c1.view)
+
+def lookAt(eye, center, up): #Recibe donde está la cámara, el centro y que es arriba.
+    #Esto da la base del espacio vectorial.
+
+    z = (eye-center).normalice() # Zeta de la cámara.
+    x = cross(up, z).normalice() # Equis de la cámara.
+    y = cross(z, x).normalice()  # Y de la cámara.
+
+    loadViewMatrix(x, y, z, center)
+    
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
 def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
@@ -409,10 +462,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
-                v4 = r.transform_vertex(r.vertices[f4], c1.matrix)
+                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
+                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
+                v4 = r.transform_vertex(r.vertices[f4], c1.model_s)
 
                 ft1 = face[0][1] - 1 #Se le resta 1 porque el array de vértices empieza en 0.
                 ft2 = face[1][1] - 1 #Agarrando el índice 0.
@@ -443,10 +496,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
-                v4 = r.transform_vertex(r.vertices[f4], c1.matrix)
+                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
+                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
+                v4 = r.transform_vertex(r.vertices[f4], c1.model_s)
 
                 #print("Cara: ", f1, f2, f3, f4)
 
@@ -467,9 +520,9 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 #f4 = face[3][0] - 1 #Agarrando el índice 2.
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
+                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
+                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
                 #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
                 
                 #Jalando las caras de las texturas.
@@ -509,9 +562,9 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
 
 
                 #Transformando los vértices.
-                v1 = r.transform_vertex(r.vertices[f1], c1.matrix) 
-                v2 = r.transform_vertex(r.vertices[f2], c1.matrix)
-                v3 = r.transform_vertex(r.vertices[f3], c1.matrix)
+                v1 = r.transform_vertex(r.vertices[f1], c1.model_s) 
+                v2 = r.transform_vertex(r.vertices[f2], c1.model_s)
+                v3 = r.transform_vertex(r.vertices[f3], c1.model_s)
                 #v4 = r.transform_vertex(r.vertices[f4], c1.loadModelMatrix)
 
                 triangle(col1, (v1, v2, v3)) #Llamando al método triangle para dibujar un triángulo.
@@ -644,7 +697,7 @@ def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
             z = A.z * w + B.z * v + C.z * u #Se calcula la z.
             
 
-            if (c1.zBuffer[x][y] < z):
+            if (x < len(c1.zBuffer) and y < len(c1.zBuffer[0]) and c1.zBuffer[x][y] < z): #Si el zBuffer es menor a z, entonces se dibuja el punto.
                 c1.zBuffer[x][y] = z #Se setea la z.
                 
                 if c1.tpath: #Si el path2 no está vacío, entonces se dibuja el triángulo con textura.

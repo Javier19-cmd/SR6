@@ -38,10 +38,13 @@ def main():
 
     # zBuffer() #Haciendo la copia del z-buffer.
 
-    rotacion = (0, pi/12, 0) #Rotación para los bb8's.
+    rotacion = (0, 0, 0) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     
+
+    #Probando el lookat.
+    lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0, 1, 0))
 
     #Esta llamada puede no estar acá.
     loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
