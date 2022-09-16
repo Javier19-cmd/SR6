@@ -283,20 +283,20 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     ######################################################################################################################################################################
 
     #Definiendo la matriz de transformación esto es sin numpy.
-    traslation_matrix = ([
+    traslation_matrix = [
         [1, 0, 0, translate.x],
         [0, 1, 0, translate.y],
         [0, 0, 1, translate.z],
         [0, 0, 0,           1]
-    ])
+    ]
 
     #Definiendo la matriz de escala.
-    scale_matrix = ([
+    scale_matrix = [
         [scale.x, 0, 0, 0],
         [0, scale.y, 0, 0],
         [0, 0, 1, scale.z],
         [0, 0, 0,       1]
-    ])
+    ]
 
     #Definiendo la matriz de rotación.
 
@@ -602,7 +602,7 @@ def transform_vertex(vertex):
     #Recibir la matriz del vector.
     return V3(
         transformed_vertex[0][0]/transformed_vertex[3][0], 
-        transformed_vertex[1][0]/transformed_vertex[3][0], 
+        transformed_vertex[1][0]/transformed_vertex[3][0],
         transformed_vertex[2][0]/transformed_vertex[3][0]
         ) #Se regresa el vértice transformado en términos de vector 3D.
 
