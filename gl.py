@@ -36,7 +36,7 @@ from math import *
 from Matrixes import *
 
 #Importando numpy de manera temoral.
-from numpy import *
+#from numpy import *
 
 c1 = Render() #Inicializando la clase Render.
 c2 = Texture() #Inicializando las texturas.
@@ -235,50 +235,50 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
     scale = V3(scale[0], scale[1], scale[2])
     rotate = V3(rotate[0], rotate[1], rotate[2])
 
-    #Definiendo la matriz de transformación esto es con numpy.
-    traslation_matrix_np = matrix([
-        [1, 0, 0, translate.x],
-        [0, 1, 0, translate.y],
-        [0, 0, 1, translate.z],
-        [0, 0, 0,           1]
-    ])
+    # #Definiendo la matriz de transformación esto es con numpy.
+    # traslation_matrix_np = matrix([
+    #     [1, 0, 0, translate.x],
+    #     [0, 1, 0, translate.y],
+    #     [0, 0, 1, translate.z],
+    #     [0, 0, 0,           1]
+    # ])
 
-    #Definiendo la matriz de escala.
-    scale_matrix_np = matrix([
-        [scale.x, 0, 0, 0],
-        [0, scale.y, 0, 0],
-        [0, 0, 1, scale.z],
-        [0, 0, 0,       1]
-    ])
+    # #Definiendo la matriz de escala.
+    # scale_matrix_np = matrix([
+    #     [scale.x, 0, 0, 0],
+    #     [0, scale.y, 0, 0],
+    #     [0, 0, 1, scale.z],
+    #     [0, 0, 0,       1]
+    # ])
 
-    #Definiendo la matriz de rotación.
+    # #Definiendo la matriz de rotación.
 
-    #Rotación en x.
-    a = rotate.x
-    rotation_matrix_x_np = matrix([
-        [1,    0,        0,  0],
-        [0, cos(a), -sin(a), 0],
-        [0, sin(a),  cos(a), 0],
-        [0,      0,       0, 1]
-    ])
+    # #Rotación en x.
+    # a = rotate.x
+    # rotation_matrix_x_np = matrix([
+    #     [1,    0,        0,  0],
+    #     [0, cos(a), -sin(a), 0],
+    #     [0, sin(a),  cos(a), 0],
+    #     [0,      0,       0, 1]
+    # ])
 
-    #Rotación en y.
-    b = rotate.y
-    rotation_matrix_y_np = matrix([
-        [cos(b), 0, sin(b),  0],
-        [0,      1,      0,  0],
-        [-sin(b), 0, cos(b), 0],
-        [0, 0, 0, 1]
-    ])
+    # #Rotación en y.
+    # b = rotate.y
+    # rotation_matrix_y_np = matrix([
+    #     [cos(b), 0, sin(b),  0],
+    #     [0,      1,      0,  0],
+    #     [-sin(b), 0, cos(b), 0],
+    #     [0, 0, 0, 1]
+    # ])
 
-    #Rotación en z.
-    c = rotate.z
-    rotation_matrix_z_np = matrix([
-        [cos(c), -sin(c), 0,  0],
-        [sin(c),  cos(c), 0,  0],
-        [0,            0, 1,  0],
-        [0,            0, 0,  1]
-    ])
+    # #Rotación en z.
+    # c = rotate.z
+    # rotation_matrix_z_np = matrix([
+    #     [cos(c), -sin(c), 0,  0],
+    #     [sin(c),  cos(c), 0,  0],
+    #     [0,            0, 1,  0],
+    #     [0,            0, 0,  1]
+    # ])
 
     ######################################################################################################################################################################
 
@@ -329,7 +329,7 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
 
     # #Multiplicando las matrices. Estos resultados se deben a numpy.
 
-    rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np #Esto es con numpy.
+    #rotation_matrix_np = rotation_matrix_x_np @ rotation_matrix_y_np @ rotation_matrix_z_np #Esto es con numpy.
 
 
     #c1.matrix_np = traslation_matrix_np @ scale_matrix_np @ rotation_matrix_np #Esto es con numpy.
@@ -361,21 +361,21 @@ def loadModelMatrix(translate=(0,0,0), scale=(1,1,1), rotate=(0,0,0)): #Función
 
 def loadViewMatrix(x, y, z, center):
 
-    #Definiendo la matriz de vista. (con numpy)
-    Minv = matrix([
+    # #Definiendo la matriz de vista. (con numpy)
+    # Minv = matrix([
         
-        [x.x, x.y, x.z, 0],
-        [y.x, y.y, y.z, 0],
-        [z.x, z.y, z.z, 0],
-        [0,     0,   0, 1]
-        ])
+    #     [x.x, x.y, x.z, 0],
+    #     [y.x, y.y, y.z, 0],
+    #     [z.x, z.y, z.z, 0],
+    #     [0,     0,   0, 1]
+    #     ])
 
-    Op = matrix([
-        [1, 0, 0, -center.x],
-        [0, 1, 0, -center.y],
-        [0, 0, 1, -center.z],
-        [0, 0, 0,          1]
-    ])
+    # Op = matrix([
+    #     [1, 0, 0, -center.x],
+    #     [0, 1, 0, -center.y],
+    #     [0, 0, 1, -center.z],
+    #     [0, 0, 0,          1]
+    # ])
 
     #c1.view = Minv @ Op #Multiplicando las matrices.
     #print("Multiplicación con numpy: ", c1.view) #Debuggeo.
