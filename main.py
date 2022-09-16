@@ -16,7 +16,7 @@ def main():
     glClearColor(0.3, 0.4, 0.1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    glViewPort(0, 0, 250, 250) #Asignando el viewport.
+    glViewPort(0, 0, 300, 300) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
