@@ -16,7 +16,7 @@ def main():
     glClearColor(0.3, 0.4, 0.1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    #glViewPort(0, 0, 501, 501) #Asignando el viewport.
+    glViewPort(0, 0, 250, 250) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
@@ -30,18 +30,18 @@ def main():
     #triangle(V3(180, 50), V3(150, 1), V3(70, 180), col2) #Llamando al método triangle para dibujar un triángulo.
     #triangle(V3(180, 150), V3(120, 160), V3(130, 180), col3) #Llamando al método triangle para dibujar un triángulo.
 
-    scale = (200, 200, 225) #Escala para los bb8's.
-    translate = (512, 300, 0) #Traslación para los bb8's.
-    
 
     #modelo("./Pallet.obj", scale, translate, col1)
 
     # zBuffer() #Haciendo la copia del z-buffer.
 
     #Probando el lookat.
-    lookAt(V3(0, 0, 10), V3(0, 0, 0), V3(0.1, 1, 0))
+    lookAt(V3(0, 0, 50), V3(0, 0, 0), V3(0, 1, 0))
 
-    rotacion = (0, 0, 0) #Rotación para los bb8's.
+    scale = (1, 1, 1) #Escala para los bb8's.
+    translate = (0, 0, 0) #Traslación para los bb8's.
+    
+    rotacion = (0, pi/2, 0) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     

@@ -71,33 +71,13 @@ def glCreateWindow(width, height): #Preguntar de esta función.
 
 def glViewPort(x, y, width, height): #Se usará para definir el área de la imagen sobre la que se va a poder dibujar.
 
-    colorV = color(0.4, 0.8, 0.08) #Creando el color del viewport.
+    #colorV = color(0.4, 0.8, 0.08) #Creando el color del viewport.
 
     #Verificando que las dimensiones del viewport sean múltiplos de 4.
-    if width % 4 == 1 and height % 4 == 1:
+
+    loadViewPortMatrix(x, y, width, height)
+
         
-        c1.colorViewPort = colorV #Se manda a hacer el color del viewport.
-
-        #Seteando las propiedades del viewport.
-        c1.xV = x 
-        c1.yV = y
-        c1.widthV = width
-        c1.heightV = height
-
-        #Se crea el viewport.
-        c1.lista = [
-            [c1.colorViewPort for x in range(c1.widthV)] 
-            for y in range(c1.heightV)
-        ]
-
-        #Copiando el viewport en el framebuffer.
-        for i in range(c1.widthV):
-            for j in range(c1.heightV):
-                c1.framebuffer[c1.yV + j][c1.xV + i] = c1.lista[j][i]
-
-        #c1.View(x, y, width, height) #Se manda a hacer el viewport.
-    else: 
-        print("Error")
 
 
 #Preguntar si esta función lo que hace es llenar por primera vez el color de la pantalla.
@@ -421,6 +401,29 @@ def loadViewMatrix(x, y, z, center):
 
     print("Matriz de vista sin numpy: ", c1.view)
 
+def loadProjectionMatrix(eye, center): #Calculando la proyección de la cámara.
+
+    coeff = -1 /(eye.len() - center.len()) #Calculando el coeficiente de alejamiento.
+   
+    #Definiendo la matriz de vista (sin numpy)
+    c1.Projection = [
+        [1, 0, 0, 0],
+        [0, 1, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, coeff, 1]
+    ]
+
+def loadViewPortMatrix(x, y, w, h): #Calculando la proyección de la cámara.
+    
+    c1.lista = [
+        [w, 0, 0, x + w],
+        [0, h, 0, y + h],
+        [0, 0, 128, 128],
+        [0, 0, 0, 1]
+    ]
+
+
+
 def lookAt(eye, center, up): #Recibe donde está la cámara, el centro y que es arriba.
     #Esto da la base del espacio vectorial.
 
@@ -429,6 +432,7 @@ def lookAt(eye, center, up): #Recibe donde está la cámara, el centro y que es 
     y = cross(z, x).normalice()  # Y de la cámara.
 
     loadViewMatrix(x, y, z, center) #Cargando la matriz de vista.
+    loadProjectionMatrix(eye, center) #Cargando la matriz de proyección.
     
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
@@ -587,7 +591,7 @@ def transform_vertex(vertex):
     #print("Model matrix: ", model_matrix)
     #print("Aumented vertex: ", aumented_vertex)
 
-    transformed_vertex = c3.multiplicar(c3.multiplicar(c1.view, c1.model_s), aumented_vertex) #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
+    transformed_vertex = c3.multiplicar(c1.lista, c3.multiplicar(c1.Projection, c3.multiplicar(c3.multiplicar(c1.view, c1.model_s), aumented_vertex))) #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
     
     # print("Tansformed vertex: ", transformed_vertex) #Debuggeo.
 
@@ -730,7 +734,13 @@ def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
             z = A.z * w + B.z * v + C.z * u #Se calcula la z.
             
 
-            if (x < len(c1.zBuffer) and y < len(c1.zBuffer[0]) and c1.zBuffer[x][y] < z): #Si el zBuffer es menor a z, entonces se dibuja el punto.
+            if (
+                z >= 0 and
+                y >= 0 and
+                x < len(c1.zBuffer) and 
+                y < len(c1.zBuffer[0]) and 
+                c1.zBuffer[x][y] < z
+                ): #Si el zBuffer es menor a z, entonces se dibuja el punto.
                 c1.zBuffer[x][y] = z #Se setea la z.
                 
                 if c1.tpath: #Si el path2 no está vacío, entonces se dibuja el triángulo con textura.

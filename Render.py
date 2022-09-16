@@ -16,7 +16,7 @@ class Render(object):
     xV = 0 #Posición en x del viewport.
     yV = 0 #Posición en y del viewport.
 
-    lista = [] #Lista para generar el viewport.
+    lista = None #Lista para generar el viewport.
 
     colorP = 0 #Asignando el color blanco al punto. Esto es temporal.
 
@@ -39,6 +39,9 @@ class Render(object):
     view_np = None #Quitar después.
 
     view = None
+
+    #Declarando la matriz de proyección.
+    Projection = None
 
 
     #Método que escribe el archivo bmp.
