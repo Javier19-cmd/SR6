@@ -38,10 +38,10 @@ def main():
     #Probando el lookat.
     lookAt(V3(0, 0, 5), V3(0, 0, 0), V3(0, 1, 0))
 
-    scale = (1, 1, 1) #Escala para los bb8's.
+    scale = (0.0000000000000000000000000000000001, 0.0000000000000000000000000000000001, 0.000000000000000000000000000000001) #Escala para los bb8's.
     translate = (0.4, 0.4, 0) #Traslación para los bb8's.
     
-    rotacion = (0, pi/12, 0) #Rotación para los bb8's.
+    rotacion = (0, pi/7, 0) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     
@@ -49,7 +49,7 @@ def main():
     loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
 
     #Esta función ahora recibe primero el path del obj, luego el path del bmp, el color.
-    modelo("./pumpkin.obj", "./pumpkin.bmp", col1) 
+    modelo("./model.obj", "./model.bmp", col1) 
 
 
     #texturas("./model.obj", "./model.bmp", col1)
