@@ -11,12 +11,11 @@ from gl import * #Importando el archivo gl.py, para crear la imagen.
 from textures import * #Importando los métodos del archivo textures.py.
 
 def main():
-    glCreateWindow(1024, 1024) #Creando la ventana.
-    #glCreateWindow(5000, 5000) #Creando la ventana.
+    glCreateWindow(2048, 2048) #Creando la ventana.
     glClearColor(1, 1, 1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    glViewPort(200, 300, 300, 300) #Asignando el viewport.
+    glViewPort(700, 800, 300, 300) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
@@ -36,12 +35,18 @@ def main():
     # zBuffer() #Haciendo la copia del z-buffer.
 
     #Probando el lookat.
-    lookAt(V3(0, 0, 10), V3(-0.1, 1, 0), V3(0, 1, 0))
+    # El medium shot se hizo con estas medidas: V3(25, 0, 10), V3(0, 1, 0), V3(0, 1, 0).
+    # El low angle se hizo con estas medidas: V3(10, -4.5, 0), V3(1, 0, 0), V3(0, 1, 0).
+    # El high agnle se hizo con estas medidas: V3(10, 12, 0), V3(1, 0, 0), V3(0, 1, 0) y las medidas 
+    # del viewport fueron glViewPort(900, 500, 300, 300).
+    # El dutch angle se hizo con estas medidas: scale = (0.75, 0.75, 1), translate = (1, 0.2, 0)
+    # rotacion = (0, 0, pi/2), glViewPort(700, 800, 300, 300) y lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0)). 
+    lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0))
 
-    scale = (0.5, 0.5, 0.5) #Escala para los bb8's.
-    translate = (0, 0.1, 0) #Traslación para los bb8's.
+    scale = (0.75, 0.75, 1) #Escala para los bb8's.
+    translate = (1, 0.2, 0) #Traslación para los bb8's.
     
-    rotacion = (pi/5, 0, 0) #Rotación para los bb8's.
+    rotacion = (0, 0, pi/2) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     
