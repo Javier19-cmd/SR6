@@ -16,7 +16,7 @@ def main():
     glClearColor(1, 1, 1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    glViewPort(0, 0, 300, 300) #Asignando el viewport.
+    glViewPort(200, 300, 300, 300) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
@@ -36,12 +36,12 @@ def main():
     # zBuffer() #Haciendo la copia del z-buffer.
 
     #Probando el lookat.
-    lookAt(V3(0, 0, 5), V3(0, 0, 0), V3(0, 1, 0))
+    lookAt(V3(0, 0, 10), V3(-0.1, 1, 0), V3(0, 1, 0))
 
-    scale = (1, 1, 1) #Escala para los bb8's.
-    translate = (0.2, 0.2, 0) #Traslación para los bb8's.
+    scale = (0.5, 0.5, 0.5) #Escala para los bb8's.
+    translate = (0, 0.1, 0) #Traslación para los bb8's.
     
-    rotacion = (0, pi/3, 0) #Rotación para los bb8's.
+    rotacion = (pi/5, 0, 0) #Rotación para los bb8's.
 
     print("Rotación: ", rotacion)
     
@@ -49,7 +49,7 @@ def main():
     loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
 
     #Esta función ahora recibe primero el path del obj, luego el path del bmp, el color.
-    modelo("./tree.obj", "./tree.bmp", col1) 
+    modelo("./droids.obj", "./material2.bmp", col1) 
 
 
     #texturas("./model.obj", "./model.bmp", col1)
