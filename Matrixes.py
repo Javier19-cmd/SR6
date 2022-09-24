@@ -51,3 +51,11 @@ class Matriz(object): #Clase para las matrices.
             return Matriz(m3) #Devolvemos el resultado.
         else: #Si las matrices no tienen las mismas dimensiones, entonces devolvemos un mensaje de error.
             return "Las matrices no tienen las mismas dimensiones"
+    
+    #Método para obtener el valor de un elemento de la matriz.
+    def __getitem__(self, i):
+        return self.m[i]
+    
+    #Método para imprimir la matriz.
+    def __str__(self):
+        return str(self.m)

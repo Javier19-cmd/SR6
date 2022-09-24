@@ -409,21 +409,21 @@ def loadProjectionMatrix(eye, center): #Calculando la proyección de la cámara.
     coeff = -1 /(eye.len() - center.len()) #Calculando el coeficiente de alejamiento.
    
     #Definiendo la matriz de vista (sin numpy)
-    c1.Projection = [
+    c1.Projection = Matriz([
         [1, 0, 0, 0],
         [0, 1, 0, 0],
         [0, 0, 1, 0],
         [0, 0, coeff, 1]
-    ]
+    ])
 
 def loadViewPortMatrix(x, y, w, h): #Calculando la proyección de la cámara.
     
-    c1.lista = [
+    c1.lista = Matriz([
         [w, 0, 0, x + w],
         [0, h, 0, y + h],
         [0, 0, 128, 128],
         [0, 0, 0, 1]
-    ]
+    ])
 
 
 
@@ -582,12 +582,12 @@ def transform_vertex(vertex):
     #print(vertex)
     #print(scale)
 
-    aumented_vertex = [
+    aumented_vertex = Matriz([
         [vertex[0]], 
         [vertex[1]], 
         [vertex[2]], 
                 [1]
-        ] #Se aumenta el vértice a 4 dimensiones.
+        ]) #Se aumenta el vértice a 4 dimensiones.
 
 
     #Debuggeo.
@@ -598,11 +598,13 @@ def transform_vertex(vertex):
     
     transformed_vertex = c1.lista * c1.Projection * c1.view * c1.model_s * aumented_vertex #Se multiplica el vértice aumentado por la matriz de transformación. Luego se tiene que cambiar a @, porque * es para multiplicar con numpy.
 
-    # print("Tansformed vertex: ", transformed_vertex) #Debuggeo.
+    #Imprimiendo el vértice transformado.
+    #print("Transformed vertex: ", transformed_vertex)
 
-    # print("Componentes del vertex: ", transformed_vertex[0][0], transformed_vertex[1][0], transformed_vertex[2][0]) #Debuggeo.
-
-    #print("Tansformed vertex en vector 3D: ", V3(transformed_vertex[0][0]/transformed_vertex[2][0], transformed_vertex[1][0]/transformed_vertex[2][0], transformed_vertex[2][0]/transformed_vertex[2][0])) #Debuggeo.
+    #Imprimiendo cada componente del vértice transformado.
+    #print("Transformed vertex x: ", transformed_vertex[0])
+    
+    #print("Transformed vertex y: ", transformed_vertex[1][0])
 
     #Recibir la matriz del vector.
     return V3(
