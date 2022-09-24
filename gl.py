@@ -689,11 +689,11 @@ def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
     L = V3(0, 0, 1) #Vector de la luz.
 
     #Calculando la normal.
-    N = cross((B - A), (C - A)) #Se calcula la normal.
+    N = cross((B - A), (C - A)) * 5 #Se calcula la normal.
 
     #print("Normal: ", N) #Se imprime la normal.
 
-    i = (L.normalice() @ N.normalice()) * 5 #Se calcula el producto punto. Esto es para la intensidad del color.
+    i = (L.normalice() @ N.normalice()) #Se calcula el producto punto. Esto es para la intensidad del color.
 
     #print("Intensidad: ", i) #Se imprime la intensidad.
 

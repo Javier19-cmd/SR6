@@ -11,11 +11,11 @@ from gl import * #Importando el archivo gl.py, para crear la imagen.
 from textures import * #Importando los métodos del archivo textures.py.
 
 def main():
-    glCreateWindow(2048, 2048) #Creando la ventana.
+    glCreateWindow(2024, 2024) #Creando la ventana.
     glClearColor(1, 1, 1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    glViewPort(700, 800, 300, 300) #Asignando el viewport.
+    glViewPort(400, 800, 300, 300) #Asignando el viewport.
     
     #glVertex(0.1, 0.3) #Dibujando el punto.
 
@@ -41,12 +41,12 @@ def main():
     # del viewport fueron glViewPort(900, 500, 300, 300).
     # El dutch angle se hizo con estas medidas: scale = (0.75, 0.75, 1), translate = (1, 0.2, 0)
     # rotacion = (0, 0, pi/2), glViewPort(700, 800, 300, 300) y lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0)). 
-    lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0))
+    lookAt(V3(25, 0, 10), V3(0, 1, 0), V3(0, 1, 0))
 
-    scale = (5, 5, 7) #Escala para los bb8's.
-    translate = (1, 0.2, 0) #Traslación para los bb8's.
+    scale = (1, 1, 1) #Escala para las cajas.
+    translate = (1, 0.2, 0) #Traslación para las cajas.
     
-    rotacion = (0, 0, pi/2) #Rotación para los bb8's.
+    rotacion = (0, 0, 0) #Rotación para las cajas.
 
     print("Rotación: ", rotacion)
     
@@ -54,7 +54,7 @@ def main():
     loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
 
     #Esta función ahora recibe primero el path del obj, luego el path del bmp, el color.
-    modelo("./droids.obj", "./material2.bmp", col1) 
+    modelo("./box.obj", "./box.bmp", col1) 
 
 
     #texturas("./model.obj", "./model.bmp", col1)
