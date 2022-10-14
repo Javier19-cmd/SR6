@@ -439,7 +439,7 @@ def lookAt(eye, center, up): #Recibe donde está la cámara, el centro y que es 
     
 
 #Este método recibe ahora dos paths. Uno es para el obj y el otro es para el bmp.
-def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
+def modelo(path1, path2): #Método para cargar un modelo 3D.
 
     
     r = Object(path1) #Llamando al método Object del archivo Obj.py.
@@ -491,9 +491,31 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
 
                 #print("Cara: ", f1, f2, f3, f4)
 
-                #Dibujando los triangulos.
-                triangle(col1, (v1, v2, v4), (vt1, vt2, vt4))
-                triangle(col1, (v2, v3, v4), (vt2, vt3, vt4))
+                #Guardando los triángulos.
+
+                #Primer triángulo.
+
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v2)
+                c1.vertex_buffer_obj.append(v3)
+
+                #Guardando los vértices de textura.
+                c1.vertex_buffer_obj.append(vt1)
+                c1.vertex_buffer_obj.append(vt2)
+                c1.vertex_buffer_obj.append(vt3)
+
+                #Guardando el segundo triángulo.
+
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v3)
+                c1.vertex_buffer_obj.append(v4)
+
+                #Guardando los vértices de textura.
+                c1.vertex_buffer_obj.append(vt1)
+                c1.vertex_buffer_obj.append(vt3)
+                c1.vertex_buffer_obj.append(vt4)
             
             else: #Si no hay textura, entonces se dibuja la cara sin textura.
                 #El array de caras es bidimensional en este código.
@@ -511,11 +533,22 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 #print("Cara: ", f1, f2, f3, f4)
 
                 #Dibujando los triangulos.
-                triangle(col1, (v1, v2, v4))
-                triangle(col1, (v2, v3, v4))
                 
+                #Primer triángulo.
 
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v2)
+                c1.vertex_buffer_obj.append(v3)
 
+                #Segundo triángulo.
+                
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v3)
+                c1.vertex_buffer_obj.append(v4)
+
+                
         elif len(face) == 3: #Validando que la cara tenga 3 vértices.
             
             if c1.tpath: #Si el path2 no está vacío, entonces se dibuja el triángulo.
@@ -555,11 +588,16 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
 
                 #print("Textura: ", c1.tpath) #Debuggeo.
 
-                triangle(
-                    col1, #Llamando al método triangle para dibujar un triángulo.
-                    (v1, v2, v3)
-                    ,(vt1, vt2, vt3)
-                ) 
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v2)
+                c1.vertex_buffer_obj.append(v3)
+
+                #Guardando los vértices de textura.
+                c1.vertex_buffer_obj.append(vt1)
+                c1.vertex_buffer_obj.append(vt2)
+                c1.vertex_buffer_obj.append(vt3)
+             
             else: #Si el path2 está vacío, entonces se dibuja el triángulo.
                 
                 #El array de caras es bidimensional en este código.
@@ -574,7 +612,10 @@ def modelo(path1, path2, col1): #Método para cargar un modelo 3D.
                 v3 = transform_vertex(r.vertices[f3])
                 #v4 = transform_vertex(r.vertices[f4], c1.loadModelMatrix)
 
-                triangle(col1, (v1, v2, v3)) #Llamando al método triangle para dibujar un triángulo.
+                #Guardando los vértices.
+                c1.vertex_buffer_obj.append(v1)
+                c1.vertex_buffer_obj.append(v2)
+                c1.vertex_buffer_obj.append(v3)
 
 #Función que transforma los vértices de la estructura de la imagen.
 def transform_vertex(vertex):
@@ -674,12 +715,29 @@ def baricentrico(A, B, C, P):
 
         return (u, v, w)
 
-def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
 
-    A, B, C = vertices #Se obtienen los vértices.
+#Función para dibujar los triángulos.
+def dibujar(poligono, col):
+    c1.active_vertex_array = iter(c1.vertex_buffer_obj)
+
+    if poligono == "triangle":
+        try: 
+            while True:
+                triangle(col)
+        except StopIteration:
+            print("Dibujando triángulos...")
+
+def triangle(col): #Función que dibuja un triángulo.
+
+    #Recibiendo los valores de cada vértice.
+    A = next(c1.active_vertex_array)
+    B = next(c1.active_vertex_array)
+    C = next(c1.active_vertex_array)
 
     if c1.tpath: #Si el path2 no está vacío, entonces se dibuja el triángulo con textura.
-        tA, tB, tC = tv #Se obtienen los vértices de textura.
+        tA = next(c1.active_vertex_array)
+        tB = next(c1.active_vertex_array)
+        tC = next(c1.active_vertex_array)
         #print(tA, tB, tC)
 
     #print(col[0], col[1], col[2])

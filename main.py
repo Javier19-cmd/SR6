@@ -15,7 +15,7 @@ def main():
     glClearColor(1, 1, 1) #Color del fondo.
     glClear() #Limpiando el framebuffer con el color creado en glClearColor.
     
-    glViewPort(600, 900, 300, 300) #Asignando el viewport.
+    glViewPort(600, 450, 300, 300) #Asignando el viewport.
 
     col1 = (0.6, 0.1, 0.9) #Otro color.
 
@@ -26,12 +26,12 @@ def main():
     # del viewport fueron glViewPort(900, 500, 300, 300).
     # El dutch angle se hizo con estas medidas: scale = (0.75, 0.75, 1), translate = (1, 0.2, 0)
     # rotacion = (0, 0, pi/2), glViewPort(700, 800, 300, 300) y lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0)). 
-    lookAt(V3(0, 0, 10), V3(0, 1, 0), V3(0, 1, 0))
+    lookAt(V3(10, 12, 0), V3(1, 0, 0), V3(0, 1, 0))
 
     scale = (1, 1, 1) #Escala para las cajas.
-    translate = (1, 0.2, 0) #Traslación para las cajas.
+    translate = (0, 0, 0) #Traslación para las cajas.
     
-    rotacion = (0, 0, pi/2) #Rotación para las cajas.
+    rotacion = (0, pi/2, 0) #Rotación para las cajas.
 
     print("Rotación: ", rotacion)
     
@@ -39,7 +39,9 @@ def main():
     loadModelMatrix(translate, scale, rotacion) #Se carga la matriz de transformación del modelo. Acá se recibe la traslación, la escala y la rotación.
 
     #Esta función ahora recibe primero el path del obj, luego el path del bmp, el color.
-    modelo("./box.obj", "./box.bmp", col1) 
+    modelo("./box.obj", "./box.bmp")
+    
+    dibujar("triangle", col1) 
 
     glFinish() #Escribiendo el framebuffer en la imagen y guardándola en un archivo.
 
