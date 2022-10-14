@@ -729,7 +729,7 @@ def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
 
     for x in range(min.x, max.x + 1):
         for y in range(min.y, max.y + 1):
-            w, v, u = baricentrico(A, B, C, V3(x, y)) #Se calcula el baricéntrico.
+            w, u, v = baricentrico(A, B, C, V3(x, y)) #Se calcula el baricéntrico.
 
             if u < 0 or v < 0 or w < 0: #Si el baricéntrico es mayor o igual a 0, entonces se dibuja el punto.
                 #print("Punto: ", x, y)
@@ -751,8 +751,8 @@ def triangle(col, vertices, tv=()): #Función que dibuja un triángulo.
                 c1.zBuffer[x][y] = z #Se setea la z.
                 
                 if c1.tpath: #Si el path2 no está vacío, entonces se dibuja el triángulo con textura.
-                    tx = tA.x * w + tB.x * u + tC.x * v #Se calcula la x de la textura.
-                    ty = tA.y * w + tB.y * u + tC.y * v #Se calcula la y de la textura.
+                    tx = tA.x * v + tB.x * w + tC.x * u #Se calcula la x de la textura.
+                    ty = tA.y * v + tB.y * w + tC.y * u #Se calcula la y de la textura.
                     c1.colorP = c2.get_color_with_intensity(tx, ty, i) #Se setea el color del punto con textura.
 
                     #print(c1.colorP)
